@@ -9,9 +9,23 @@ const provider = new HDWalletProvider(
 
 const web3 = new Web3(provider);
 
+const jsonInterface = JSON.parse(compile.interface);
+
 const deploy = async () => {
 	const accounts = await web3.eth.getAccounts();
 	console.log('attempting to deploy from the account:',accounts[0]);
+
+	const result = await new web3.eth.Contract(jsonInterface)
+	.deploy({
+		data : compile.bytecode ,
+		arguments : ['Hello World!']
+	})
+	.send({
+		gas : '1000000',
+		from : accounts[0]
+	});
+
+	console.log(result.options.address);
 };
 
 deploy();
