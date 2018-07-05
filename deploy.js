@@ -12,20 +12,24 @@ const web3 = new Web3(provider);
 const jsonInterface = JSON.parse(compile.interface);
 
 const deploy = async () => {
-	const accounts = await web3.eth.getAccounts();
-	console.log('attempting to deploy from the account:',accounts[0]);
+	try {
+		const accounts = await web3.eth.getAccounts();
+		console.log('attempting to deploy from the account:',accounts[0]);
 
-	const result = await new web3.eth.Contract(jsonInterface)
-	.deploy({
+		const result = await new web3.eth.Contract(jsonInterface)
+		.deploy({
 		data : compile.bytecode ,
 		arguments : ['Hello World!']
-	})
-	.send({
-		gas : '1000000',
+		})
+		.send({
+		gas : '30000000',
 		from : accounts[0]
-	});
+		});
+		console.log('contract deployed to :',result.options.address);
+	} catch(error){
+		console.log(error);
+	}
 
-	console.log(result.options.address);
 };
 
 deploy();
