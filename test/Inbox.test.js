@@ -13,7 +13,7 @@ let inbox;
 
 
 beforeEach(async () => {
-	// Get a list of all accounts
+	// get a list of all accounts
 	accounts = await web3.eth.getAccounts();
 
 	// deploy the contract from one of the accounts
